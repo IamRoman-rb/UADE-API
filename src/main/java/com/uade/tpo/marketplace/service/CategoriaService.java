@@ -1,4 +1,4 @@
 package com.uade.tpo.marketplace.service;
 
-public class CategoriaService {
+public interface CategoriaService {
 }

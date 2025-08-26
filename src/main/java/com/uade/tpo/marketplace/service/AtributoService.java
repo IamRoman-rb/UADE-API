@@ -1,4 +1,4 @@
 package com.uade.tpo.marketplace.service;
 
-public class AtributoService {
+public interface AtributoService {
 }
