@@ -1,58 +1,55 @@
 package com.uade.tpo.marketplace.entity;
 
 import com.uade.tpo.marketplace.enums.Estados;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 @Data
+@Entity
+@Table(name = "productos")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private String nombre;
 
-    @Column
-    private Date fecha;
-
-    @Column
-    private LocalDateTime hora;
-
-    @Column
+    @Column(nullable = false)
     private float valor;
 
-    @Column
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
     @Column
     private String foto;
 
-    @Column
+    @Column(nullable = false)
     private int cantidad;
 
-    @Column
+    @Column(nullable = false)
     private int descuento;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estados estado = Estados.ACTIVO;
 
-    @Column
-    private ArrayList<ValorAtributoProducto> datos;
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ValorAtributoProducto> datos = new ArrayList<>();
 
-    public Producto(String nombre, float valor, String descripcion, String foto, int cantidad, int descuento, Categoria categoria, ArrayList<ValorAtributoProducto> datos){
-        this.fecha = new Date();
-        this.hora = LocalDateTime.now();
+    @Column(nullable = false)
+    private LocalDateTime fechaHora;
+
+    public Producto(String nombre, float valor, String descripcion, String foto, int cantidad, int descuento, Categoria categoria, List<ValorAtributoProducto> datos){
+        this.fechaHora = LocalDateTime.now();
         this.nombre = nombre;
         this.valor = valor;
         this.descripcion = descripcion;
@@ -64,5 +61,4 @@ public class Producto {
     }
 
     public Producto(){}
-
 }

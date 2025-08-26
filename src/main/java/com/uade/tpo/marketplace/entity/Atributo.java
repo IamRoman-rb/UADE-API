@@ -1,18 +1,17 @@
 package com.uade.tpo.marketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name = "atributos")
 public class Atributo {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String nombre;
 
     public Atributo(String nombre){
@@ -20,5 +19,4 @@ public class Atributo {
     }
 
     public Atributo(){}
-
 }

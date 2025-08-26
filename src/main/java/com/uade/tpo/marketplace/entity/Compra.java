@@ -1,43 +1,39 @@
 package com.uade.tpo.marketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 @Data
+@Entity
+@Table(name = "compras")
 public class Compra {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private float valor;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false) // FK hacia usuario
     private Usuario usuario;
 
-    @Column
-    private ArrayList<Item> items;
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> items = new ArrayList<>();
 
-    @Column
-    private Date fecha;
+    @Column(nullable = false)
+    private LocalDateTime fechaHora;
 
-    @Column
-    private LocalDateTime hora;
-
-    public Compra(float valor, Usuario usuario, ArrayList<Item> items){
+    public Compra(float valor, Usuario usuario, List<Item> items){
         this.valor = valor;
         this.usuario = usuario;
         this.items = items;
-        this.fecha = new Date();
-        this.hora = LocalDateTime.now();
+        this.fechaHora = LocalDateTime.now();
     }
 
-    public Compra(){}
+    public Compra() {}
 }

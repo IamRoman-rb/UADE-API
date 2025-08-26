@@ -5,19 +5,27 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(
+        name = "valores_atributo_producto",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"producto_id", "atributo_id"})
+        }
+)
 public class ValorAtributoProducto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private String valor;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "atributo_id", nullable = false)
     private Atributo atributo;
 
     public ValorAtributoProducto(String valor, Producto producto, Atributo atributo){
@@ -25,6 +33,6 @@ public class ValorAtributoProducto {
         this.producto = producto;
         this.atributo = atributo;
     }
-    public ValorAtributoProducto(){}
 
+    public ValorAtributoProducto(){}
 }

@@ -2,49 +2,51 @@ package com.uade.tpo.marketplace.entity;
 
 import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.enums.Role;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @Column(nullable = false)
     private String nombre;
 
-    @Column
+    @Column(nullable = false)
     private String apellido;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private int dni;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role tipo;
 
-    @Column
-    private ArrayList<Compra> compraa;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras = new ArrayList<>();
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Estados estado;
 
     public Usuario(String nombre, String apellido, String email, String password, int dni){
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.password = password; // Encriptar, ver la proxima clase :)
+        this.password = password; // ojo: falta encriptar
         this.dni = dni;
         this.tipo = Role.COMPRADOR;
         this.estado = Estados.ACTIVO;

@@ -1,46 +1,47 @@
 package com.uade.tpo.marketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
+@Entity
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name = "compra_id", nullable = false) // relación con Compra
+    private Compra compra;
+
+    @Column(nullable = false)
     private int cantidad;
 
-    @Column
+    @Column(nullable = false)
     private float valor;
 
-    @Column
-    private Date fecha;
+    @Column(nullable = false)
+    private LocalDateTime fechaHora;
 
-    @Column
-    private LocalDateTime hora;
-
-    public Item(Producto producto, Usuario usuario, int cantidad, float valor){
+    public Item(Producto producto, Usuario usuario, Compra compra, int cantidad, float valor){
         this.producto = producto;
         this.usuario = usuario;
+        this.compra = compra;
         this.cantidad = cantidad;
         this.valor = valor;
-        this.fecha = new Date();
-        this.hora = LocalDateTime.now();
+        this.fechaHora = LocalDateTime.now();
     }
 
-    public Item(){}
+    public Item() {}
 }

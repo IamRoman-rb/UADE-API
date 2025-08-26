@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class UsuarioServiceImp implements UsuarioService {
-     @Autowired
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
 
