@@ -1,7 +1,7 @@
 package com.uade.tpo.marketplace.entity;
 
 import com.uade.tpo.marketplace.enums.Estados;
-import com.uade.tpo.marketplace.enums.TipoUsuarios;
+import com.uade.tpo.marketplace.enums.Role;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +32,7 @@ public class Usuario {
     private int dni;
 
     @Column
-    private TipoUsuarios tipo;
+    private Role tipo;
 
     @Column
     private ArrayList<Compra> compraa;
@@ -46,7 +46,7 @@ public class Usuario {
         this.email = email;
         this.password = password; // Encriptar, ver la proxima clase :)
         this.dni = dni;
-        this.tipo = TipoUsuarios.COMPRADOR;
+        this.tipo = Role.COMPRADOR;
         this.estado = Estados.ACTIVO;
     }
 

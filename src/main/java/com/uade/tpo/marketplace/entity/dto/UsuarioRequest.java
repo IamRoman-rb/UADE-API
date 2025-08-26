@@ -2,7 +2,7 @@ package com.uade.tpo.marketplace.entity.dto;
 
 import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.enums.Estados;
-import com.uade.tpo.marketplace.enums.TipoUsuarios;
+import com.uade.tpo.marketplace.enums.Role;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class UsuarioRequest {
     private String email;
     private String password;
     private int dni;
-    private TipoUsuarios tipo;
+    private Role tipo;
     private ArrayList<Compra> compras;
     private Estados estado;
 }

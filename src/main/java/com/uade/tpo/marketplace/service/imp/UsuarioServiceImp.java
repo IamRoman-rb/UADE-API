@@ -2,7 +2,7 @@ package com.uade.tpo.marketplace.service.imp;
 
 import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.entity.Usuario;
-import com.uade.tpo.marketplace.enums.TipoUsuarios;
+import com.uade.tpo.marketplace.enums.Role;
 import com.uade.tpo.marketplace.exceptions.UsuarioDuplicadoException;
 import com.uade.tpo.marketplace.repository.UsuarioRepository;
 import com.uade.tpo.marketplace.service.UsuarioService;
@@ -19,7 +19,7 @@ public class UsuarioServiceImp implements UsuarioService {
 
 
     @Override
-    public Usuario crearUsuario(String nombre, String apellido, String maill, String password, int dni, TipoUsuarios tipo) throws UsuarioDuplicadoException {
+    public Usuario crearUsuario(String nombre, String apellido, String maill, String password, int dni, Role tipo) throws UsuarioDuplicadoException {
         return null;
     }
 
@@ -49,7 +49,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public TipoUsuarios getTipoUsuario() {
+    public Role getTipoUsuario() {
         return null;
     }
 
@@ -104,7 +104,7 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public void setTipo(TipoUsuarios tipo) {
+    public void setTipo(Role tipo) {
 
     }
 }
