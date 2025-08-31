@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductoServiceImp implements ProductoService {
@@ -49,7 +50,7 @@ public class ProductoServiceImp implements ProductoService {
     public List<Producto> findByCategoria(Categoria categoria) {
         return productoRepository.findAll()
                 .stream()
-                .filter(p -> p.getCategoria().equals(categoria)).toList();
+                .filter(p -> p.getCategoria().equals(categoria)).collect(Collectors.toList());
     }
 
     @Override
