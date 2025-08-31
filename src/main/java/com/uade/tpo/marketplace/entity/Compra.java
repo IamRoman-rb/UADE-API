@@ -19,7 +19,7 @@ public class Compra {
     private float valor;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false) // FK hacia usuario
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)

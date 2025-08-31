@@ -2,152 +2,74 @@ package com.uade.tpo.marketplace.service.imp;
 
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
-import com.uade.tpo.marketplace.entity.Usuario;
-import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
-import com.uade.tpo.marketplace.enums.Estados;
+import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
+import com.uade.tpo.marketplace.repository.ProductoRepository;
 import com.uade.tpo.marketplace.service.ProductoService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductoServiceImp implements ProductoService {
 
-    @Override
-    public Producto crearProducto(String nombre, Date fecha, LocalDateTime hora, float valor, String descripcion, String foto, int cantida, int descuento, Usuario usuario, Categoria categoria, ArrayList<ValorAtributoProducto> datos) {
-        return null;
+    private final ProductoRepository productoRepository;
+
+    public ProductoServiceImp(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
     }
 
     @Override
-    public String getId() {
-        return "";
+    public Producto crearProducto(Producto producto) {
+        if (productoRepository.findById(producto.getId()).isPresent()) {
+            throw new RuntimeException("El producto ya existe");
+        }
+        return productoRepository.save(producto);
     }
 
     @Override
-    public String getNombre() {
-        return "";
+    public List<Producto> getProductos() {
+        return productoRepository.findAll();
     }
 
     @Override
-    public Date getFecha() {
-        return null;
-    }
-
-    @Override
-    public LocalDateTime getHora() {
-        return null;
-    }
-
-    @Override
-    public float getValor() {
-        return 0;
-    }
-
-    @Override
-    public String getDescripcion() {
-        return "";
-    }
-
-    @Override
-    public String getFoto() {
-        return "";
-    }
-
-    @Override
-    public int getCantidad() {
-        return 0;
-    }
-
-    @Override
-    public int getDescuento() {
-        return 0;
-    }
-
-    @Override
-    public Usuario getUsuario() {
-        return null;
-    }
-
-    @Override
-    public Categoria getCategoria() {
-        return null;
-    }
-
-    @Override
-    public Estados getEstado() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<ValorAtributoProducto> getDatos() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Producto> getProductos() {
-        return null;
+    public Optional<Producto> findById(String id) {
+        return productoRepository.findById(id);
     }
 
     @Override
     public Optional<Producto> findByNombre(String nombre) {
-        return Optional.empty();
+        return productoRepository.findAll()
+                .stream()
+                .filter(p -> p.getNombre().equalsIgnoreCase(nombre))
+                .findFirst();
     }
 
     @Override
-    public Optional<Producto> findByCategoria(Categoria categoria) {
-        return Optional.empty();
+    public List<Producto> findByCategoria(Categoria categoria) {
+        return productoRepository.findAll()
+                .stream()
+                .filter(p -> p.getCategoria().equals(categoria)).toList();
     }
 
     @Override
-    public void setNombre(String nombre) {
-
+    public Producto actualizarProducto(String id, Producto producto) {
+        return productoRepository.findById(id)
+                .map(p -> {
+                    p.setNombre(producto.getNombre());
+                    p.setDescripcion(producto.getDescripcion());
+                    p.setValor(producto.getValor());
+                    p.setCantidad(producto.getCantidad());
+                    p.setDescuento(producto.getDescuento());
+                    p.setCategoria(producto.getCategoria());
+                    p.setDatos(producto.getDatos());
+                    return productoRepository.save(p);
+                })
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
     }
 
     @Override
-    public void setFecha(Date fecha) {
-
-    }
-
-    @Override
-    public void setHora(LocalDateTime hora) {
-
-    }
-
-    @Override
-    public void setValor(float valor) {
-
-    }
-
-    @Override
-    public void setDescripcion(String descripcion) {
-
-    }
-
-    @Override
-    public void setFoto(String foto) {
-
-    }
-
-    @Override
-    public void setCantidad(int cantidad) {
-
-    }
-
-    @Override
-    public void setUsuario(Usuario usuario) {
-
-    }
-
-    @Override
-    public void setCategoria(Categoria categoria) {
-
-    }
-
-    @Override
-    public void setEstado(Estados estado) {
-
+    public void eliminarProducto(String id) {
+        productoRepository.deleteById(id);
     }
 }

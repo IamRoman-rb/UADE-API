@@ -1,50 +1,25 @@
 package com.uade.tpo.marketplace.service;
 
-import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.entity.Usuario;
-import com.uade.tpo.marketplace.enums.Role;
 import com.uade.tpo.marketplace.exceptions.UsuarioDuplicadoException;
+import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException; // Importar
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public interface UsuarioService {
 
-    public Usuario crearUsuario(String nombre, String apellido, String maill, String password, int dni, Role tipo) throws UsuarioDuplicadoException;
+    Usuario crearUsuario(Usuario usuario) throws UsuarioDuplicadoException;
 
-    public String getId();
+    List<Usuario> findAll();
 
-    public String getNombre();
+    Optional<Usuario> findById(String id);
 
-    public String getApellido();
+    Optional<Usuario> findByEmail(String email);
 
-    public String getMail();
+    List<Usuario> findByNombre(String nombre);
 
-    public int getDni();
+    Usuario updateUsuario(String id, Usuario usuario) throws UsuarioDuplicadoException, UsuarioNotFoundException; // Añadido throws
 
-    public Role getTipoUsuario();
-
-    public ArrayList<Compra> getCompras();
-
-    public ArrayList<Usuario> getByNombre(String nombre);
-
-    public ArrayList<Usuario> getByEmail(String email);
-
-    public Optional<Usuario> findById();
-
-    public ArrayList<Usuario> getUsuarios();
-
-    public void setNombre(String nombre);
-
-    public void setApellido(String apellido);
-
-    public void setMail(String mail);
-
-    public void setPassword(String password);
-
-    public void setDni(int dni);
-
-    public void setTipo(Role tipo);
-
-
+    void deleteUsuario(String id);
 }

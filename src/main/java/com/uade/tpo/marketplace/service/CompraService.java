@@ -1,15 +1,21 @@
 package com.uade.tpo.marketplace.service;
 
 import com.uade.tpo.marketplace.entity.Compra;
-import com.uade.tpo.marketplace.entity.Item;
 import com.uade.tpo.marketplace.entity.Usuario;
+import com.uade.tpo.marketplace.entity.dto.CompraRequest;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public interface CompraService {
-    public Compra crearCompra(float valor, Usuario usuario, ArrayList<Item> items, Date fecha, LocalDateTime hora);
+    Compra crearCompra(CompraRequest compraRequest);
 
-    
+    List<Compra> findAll();
+
+    List<Compra> findAllByUsuario(Usuario usuario);
+
+    Compra findById(String id);
+
+    List<Compra> findByFecha(java.time.LocalDateTime fecha);
+
+    void deleteCompra(String id);
 }

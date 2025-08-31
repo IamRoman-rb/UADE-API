@@ -1,68 +1,48 @@
 package com.uade.tpo.marketplace.service.imp;
 
 import com.uade.tpo.marketplace.entity.Item;
-import com.uade.tpo.marketplace.entity.Producto;
-import com.uade.tpo.marketplace.entity.Usuario;
+import com.uade.tpo.marketplace.entity.dto.ItemRequest;
+import com.uade.tpo.marketplace.repository.ItemRepository;
 import com.uade.tpo.marketplace.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemServiceImp implements ItemService {
+
+    private final ItemRepository itemRepository;
+
     @Override
-    public Item crearItem(Producto producto, Usuario usuario, int cantidad, float valor, Date fecha, LocalDateTime hora) {
-        return null;
+    public Item crearItem(ItemRequest request) {
+        Item item = new Item(
+                request.getProducto(),
+                request.getUsuario(),
+                null, // Compra se asignará al confirmar carrito
+                request.getCantidad(),
+                request.getValor()
+        );
+        return itemRepository.save(item);
     }
 
     @Override
-    public String getId() {
-        return "";
+    public List<Item> listarItems() {
+        return itemRepository.findAll();
     }
 
     @Override
-    public Producto getProducto() {
-        return null;
+    public Item obtenerItemPorId(String id) {
+        return itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item no encontrado con id: " + id));
     }
 
     @Override
-    public Usuario getUsuario() {
-        return null;
-    }
-
-    @Override
-    public int getCantidad() {
-        return 0;
-    }
-
-    @Override
-    public float getValor() {
-        return 0;
-    }
-
-    @Override
-    public Date getFecha() {
-        return null;
-    }
-
-    @Override
-    public LocalDateTime getHora() {
-        return null;
-    }
-
-    @Override
-    public void setProducto(Producto producto) {
-
-    }
-
-    @Override
-    public void setUsuario(Usuario usuario) {
-
-    }
-
-    @Override
-    public void setCantidad(int cantidad) {
-
+    public void eliminarItem(String id) {
+        if (!itemRepository.existsById(id)) {
+            throw new RuntimeException("No se puede eliminar, item no encontrado con id: " + id);
+        }
+        itemRepository.deleteById(id);
     }
 }

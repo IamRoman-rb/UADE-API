@@ -26,7 +26,7 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
-    private String password;
+    private String password; // En producción: encriptar con BCrypt
 
     @Column(nullable = false, unique = true)
     private int dni;
@@ -42,15 +42,15 @@ public class Usuario {
     @Column(nullable = false)
     private Estados estado;
 
-    public Usuario(String nombre, String apellido, String email, String password, int dni){
+    public Usuario(String nombre, String apellido, String email, String password, int dni) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.password = password; // ojo: falta encriptar
+        this.password = password;
         this.dni = dni;
         this.tipo = Role.COMPRADOR;
         this.estado = Estados.ACTIVO;
     }
 
-    public Usuario(){}
+    public Usuario() {}
 }
