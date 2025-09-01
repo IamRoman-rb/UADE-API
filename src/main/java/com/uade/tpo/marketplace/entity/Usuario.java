@@ -43,16 +43,4 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Estados estado;
-
-    public Usuario(String nombre, String apellido, String email, String password, int dni) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.password = password;
-        this.dni = dni;
-        this.role = Role.COMPRADOR;
-        this.estado = Estados.ACTIVO;
-    }
-
-    public Usuario() {}
 }

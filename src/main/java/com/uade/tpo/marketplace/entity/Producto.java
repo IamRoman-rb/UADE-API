@@ -2,8 +2,10 @@ package com.uade.tpo.marketplace.entity;
 
 import com.uade.tpo.marketplace.enums.Estados;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "productos")
 public class Producto {
     @Id
@@ -50,17 +54,4 @@ public class Producto {
     @Column(nullable = false)
     private LocalDateTime fechaHora;
 
-    public Producto(String nombre, float valor, String descripcion, String foto, int cantidad, int descuento, Categoria categoria, List<ValorAtributoProducto> datos){
-        this.fechaHora = LocalDateTime.now();
-        this.nombre = nombre;
-        this.valor = valor;
-        this.descripcion = descripcion;
-        this.foto = foto;
-        this.cantidad = cantidad;
-        this.descuento = descuento;
-        this.categoria = categoria;
-        this.datos = datos;
-    }
-
-    public Producto(){}
 }

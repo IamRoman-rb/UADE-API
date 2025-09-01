@@ -2,8 +2,10 @@ package com.uade.tpo.marketplace.entity;
 
 import com.uade.tpo.marketplace.enums.Estados;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "categorias")
 public class Categoria {
     @Id
@@ -35,13 +39,4 @@ public class Categoria {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Estados estado = Estados.ACTIVO;
-
-    public Categoria(String nombre, String descripcion, Categoria categoriaPadre){
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.categoriaPadre = categoriaPadre;
-        this.estado = Estados.ACTIVO;
-    }
-
-    public Categoria(){}
 }

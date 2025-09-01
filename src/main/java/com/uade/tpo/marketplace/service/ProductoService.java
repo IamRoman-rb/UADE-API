@@ -1,14 +1,21 @@
 package com.uade.tpo.marketplace.service;
 
+import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
+import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
+import com.uade.tpo.marketplace.enums.Estados;
+import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductoService {
 
-    Producto crearProducto(Producto producto);
+    Producto crearProducto(ProductoRequest productoRequest) throws ProductoDuplicadoException;
 
     List<Producto> getProductos();
 
@@ -21,4 +28,6 @@ public interface ProductoService {
     Producto actualizarProducto(String id, Producto producto);
 
     void eliminarProducto(String id);
+
+    Producto actualizarProducto(ProductoRequest request);
 }

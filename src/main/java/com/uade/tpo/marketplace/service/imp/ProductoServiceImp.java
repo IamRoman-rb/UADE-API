@@ -1,12 +1,19 @@
 package com.uade.tpo.marketplace.service.imp;
 
+import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
+import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
+import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
 import com.uade.tpo.marketplace.repository.ProductoRepository;
 import com.uade.tpo.marketplace.service.ProductoService;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,12 +27,25 @@ public class ProductoServiceImp implements ProductoService {
         this.productoRepository = productoRepository;
     }
 
-    @Override
-    public Producto crearProducto(Producto producto) {
-        if (productoRepository.findById(producto.getId()).isPresent()) {
-            throw new RuntimeException("El producto ya existe");
+    public Producto crearProducto(ProductoRequest productoRequest) throws ProductoDuplicadoException {
+
+        if (productoRepository.findByNameEqualsIgnoreCase(productoRequest.getNombre()).isPresent()) {
+            throw new ProductoDuplicadoException();
         }
-        return productoRepository.save(producto);
+
+        List<Producto> productos = productoRepository.findByNameEqualsIgnoreCase(productoRequest.getNombre()).orElseThrow();
+        if (productos.isEmpty()) {
+            Producto producto = new Producto();
+            producto.setNombre(productoRequest.getNombre());
+            producto.setCantidad(productoRequest.getCantidad());
+            producto.setCategoria(productoRequest.getCategoria());
+            producto.setDatos(productoRequest.getDatos());
+            producto.setDescripcion(productoRequest.getDescripcion());
+            producto.setFoto(productoRequest.getFoto());
+            producto.setFechaHora(LocalDateTime.now());
+            return productoRepository.save(producto);
+        }
+        throw new ProductoDuplicadoException();
     }
 
     @Override
@@ -72,5 +92,10 @@ public class ProductoServiceImp implements ProductoService {
     @Override
     public void eliminarProducto(String id) {
         productoRepository.deleteById(id);
+    }
+
+    @Override
+    public Producto actualizarProducto(ProductoRequest request) {
+        return null;
     }
 }

@@ -1,9 +1,14 @@
 package com.uade.tpo.marketplace.controllers.productos;
 
+import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
+import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
+import com.uade.tpo.marketplace.exceptions.ProductoExistenteException;
 import com.uade.tpo.marketplace.service.ProductoService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,23 +22,19 @@ public class ProductoController {
     }
 
     @PostMapping
-    public Producto crearProducto(@RequestBody ProductoRequest request) {
-        Producto producto = new Producto(
-                request.getNombre(),
-                request.getValor(),
-                request.getDescripcion(),
-                request.getFoto(),
-                request.getCantidad(),
-                request.getDescuento(),
-                request.getCategoria(),
-                request.getDatos()
-        );
-        return productoService.crearProducto(producto);
+    public ResponseEntity<Object> crearProducto(@RequestBody ProductoRequest productoRequest)
+            throws ProductoDuplicadoException {
+        Producto result = productoService.crearProducto(productoRequest);
+
+        return ResponseEntity.created(URI.create("/productos/" + result.getId())).body(result);
+
     }
 
+
     @GetMapping
-    public List<Producto> getProductos() {
-        return productoService.getProductos();
+    public ResponseEntity<List<Producto>> getProductos() {
+        List<Producto> producto = productoService.getProductos();
+        return ResponseEntity.ok(producto);
     }
 
     @GetMapping("/{id}")
@@ -43,18 +44,8 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@PathVariable String id, @RequestBody ProductoRequest request) {
-        Producto producto = new Producto(
-                request.getNombre(),
-                request.getValor(),
-                request.getDescripcion(),
-                request.getFoto(),
-                request.getCantidad(),
-                request.getDescuento(),
-                request.getCategoria(),
-                request.getDatos()
-        );
-        return productoService.actualizarProducto(id, producto);
+    public Producto actualizarProducto(@RequestBody ProductoRequest request) {
+        return productoService.actualizarProducto(request);
     }
 
     @DeleteMapping("/{id}")
