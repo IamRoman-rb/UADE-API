@@ -1,7 +1,6 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.categorias;
 
 import com.uade.tpo.marketplace.entity.Categoria;
-import com.uade.tpo.marketplace.entity.dto.CategoriaRequest;
 import com.uade.tpo.marketplace.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

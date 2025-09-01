@@ -1,4 +1,4 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.usuarios;
 
 import com.uade.tpo.marketplace.entity.Usuario;
 import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException; // Importar la excepción
@@ -30,6 +30,11 @@ public class UsuarioController {
     public Usuario getUsuarioById(@PathVariable String id){
         return usuarioService.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id)); // Manejo de Optional
+    }
+
+    @GetMapping("/registrar")
+    public void registrar(){
+
     }
 
 }

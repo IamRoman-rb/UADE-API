@@ -1,12 +1,14 @@
 package com.uade.tpo.marketplace.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
+@Builder
 @Table(name = "items")
 public class Item {
     @Id

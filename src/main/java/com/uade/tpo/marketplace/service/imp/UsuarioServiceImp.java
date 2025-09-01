@@ -50,7 +50,7 @@ public class UsuarioServiceImp implements UsuarioService {
             }
 
             existing.setDni(usuario.getDni());
-            existing.setTipo(usuario.getTipo());
+            existing.setRole(usuario.getRole());
             existing.setEstado(usuario.getEstado());
             return usuarioRepository.save(existing);
         }).orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));

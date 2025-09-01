@@ -1,7 +1,6 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.compras;
 
 import com.uade.tpo.marketplace.entity.Compra;
-import com.uade.tpo.marketplace.entity.dto.CompraRequest;
 import com.uade.tpo.marketplace.service.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

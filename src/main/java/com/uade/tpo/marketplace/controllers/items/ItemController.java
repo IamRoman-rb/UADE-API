@@ -1,7 +1,6 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.items;
 
 import com.uade.tpo.marketplace.entity.Item;
-import com.uade.tpo.marketplace.entity.dto.ItemRequest;
 import com.uade.tpo.marketplace.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -3,6 +3,7 @@ package com.uade.tpo.marketplace.entity;
 import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.enums.Role;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "usuarios")
 public class Usuario {
     @Id
@@ -33,7 +35,7 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role tipo;
+    private Role role;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
@@ -48,7 +50,7 @@ public class Usuario {
         this.email = email;
         this.password = password;
         this.dni = dni;
-        this.tipo = Role.COMPRADOR;
+        this.role = Role.COMPRADOR;
         this.estado = Estados.ACTIVO;
     }
 

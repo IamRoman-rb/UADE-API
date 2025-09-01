@@ -2,7 +2,7 @@ package com.uade.tpo.marketplace.service.imp;
 
 import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.entity.Usuario;
-import com.uade.tpo.marketplace.entity.dto.CompraRequest;
+import com.uade.tpo.marketplace.controllers.compras.CompraRequest;
 import com.uade.tpo.marketplace.exceptions.CompraNotFoundException;
 import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException;
 import com.uade.tpo.marketplace.repository.CompraRepository;

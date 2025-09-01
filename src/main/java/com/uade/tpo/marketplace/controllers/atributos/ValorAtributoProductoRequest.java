@@ -1,4 +1,4 @@
-package com.uade.tpo.marketplace.entity.dto;
+package com.uade.tpo.marketplace.controllers.atributos;
 
 import com.uade.tpo.marketplace.entity.Atributo;
 import com.uade.tpo.marketplace.entity.Producto;

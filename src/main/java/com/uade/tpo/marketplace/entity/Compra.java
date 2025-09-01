@@ -1,6 +1,7 @@
 package com.uade.tpo.marketplace.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Builder
 @Table(name = "compras")
 public class Compra {
     @Id

@@ -1,7 +1,6 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.atributos;
 
 import com.uade.tpo.marketplace.entity.Atributo;
-import com.uade.tpo.marketplace.entity.dto.AtributoRequest;
 import com.uade.tpo.marketplace.service.AtributoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

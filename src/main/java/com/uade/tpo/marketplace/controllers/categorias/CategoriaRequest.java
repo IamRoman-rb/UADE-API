@@ -1,4 +1,4 @@
-package com.uade.tpo.marketplace.entity.dto;
+package com.uade.tpo.marketplace.controllers.categorias;
 
 import com.uade.tpo.marketplace.enums.Categorias;
 import com.uade.tpo.marketplace.enums.Estados;

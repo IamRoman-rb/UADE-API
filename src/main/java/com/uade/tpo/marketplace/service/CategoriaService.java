@@ -1,7 +1,7 @@
 package com.uade.tpo.marketplace.service;
 
 import com.uade.tpo.marketplace.entity.Categoria;
-import com.uade.tpo.marketplace.entity.dto.CategoriaRequest;
+import com.uade.tpo.marketplace.controllers.categorias.CategoriaRequest;
 
 import java.util.List;
 

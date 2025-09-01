@@ -1,7 +1,6 @@
-package com.uade.tpo.marketplace.controllers;
+package com.uade.tpo.marketplace.controllers.productos;
 
 import com.uade.tpo.marketplace.entity.Producto;
-import com.uade.tpo.marketplace.entity.dto.ProductoRequest;
 import com.uade.tpo.marketplace.service.ProductoService;
 import org.springframework.web.bind.annotation.*;
 
