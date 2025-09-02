@@ -20,9 +20,11 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    @PostMapping
+    @PostMapping("/crear/")
     public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaRequest request) {
+        System.out.println(request);
         Categoria categoria = categoriaService.crearCategoria(request);
+
         return new ResponseEntity<>(categoria, HttpStatus.CREATED);
     }
 
@@ -32,7 +34,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoria);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Categoria>> listarCategorias() {
         List<Categoria> categorias = categoriaService.findAll();
         return ResponseEntity.ok(categorias);

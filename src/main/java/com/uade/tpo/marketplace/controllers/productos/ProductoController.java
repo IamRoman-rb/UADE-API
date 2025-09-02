@@ -21,7 +21,7 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<Object> crearProducto(@RequestBody ProductoRequest productoRequest)
             throws ProductoDuplicadoException {
         Producto result = productoService.crearProducto(productoRequest);
@@ -31,7 +31,7 @@ public class ProductoController {
     }
 
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Producto>> getProductos() {
         List<Producto> producto = productoService.getProductos();
         return ResponseEntity.ok(producto);

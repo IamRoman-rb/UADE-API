@@ -27,7 +27,6 @@ public class Categoria {
     @Column(length = 500)
     private String descripcion;
 
-    // Relación recursiva: una categoría puede tener una categoría padre
     @ManyToOne
     @JoinColumn(name = "categoria_padre_id")
     private Categoria categoriaPadre;

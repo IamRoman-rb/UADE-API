@@ -21,13 +21,13 @@ public class CompraController {
         this.compraService = compraService;
     }
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<Compra> crearCompra(@RequestBody CompraRequest compraRequest) {
         Compra nuevaCompra = compraService.crearCompra(compraRequest);
         return new ResponseEntity<>(nuevaCompra, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Compra>> getAllCompras() {
         List<Compra> compras = compraService.findAll();
         return ResponseEntity.ok(compras);
