@@ -39,24 +39,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-
-        System.out.println("Intentando autenticar: " + request.getEmail());
-
-        // Verificar primero si el usuario existe y está activo
-        var userOptional = repository.findByEmail(request.getEmail());
-        if (userOptional.isEmpty()) {
-            System.out.println("Usuario no encontrado: " + request.getEmail());
-            throw new BadCredentialsException("Usuario o contraseña incorrectos");
-        }
-
-        var user = userOptional.get();
-        System.out.println("Usuario encontrado: " + user.getEmail() + ", Estado: " + user.getEstado());
-
-        if (!user.isEnabled()) {
-            System.out.println("Usuario inactivo: " + request.getEmail());
-            throw new RuntimeException("Usuario inactivo");
-        }
-
         try {
             var auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -74,7 +56,7 @@ public class AuthenticationService {
             e.printStackTrace();
             throw new RuntimeException("Error en la autenticación");
         }
-        user = repository.findByEmail(request.getEmail())
+        var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         var jwtToken = jwtService.generateToken(user);
