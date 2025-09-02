@@ -31,10 +31,4 @@ public class UsuarioController {
         return usuarioService.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id)); // Manejo de Optional
     }
-
-    @GetMapping("/registrar")
-    public void registrar(){
-
-    }
-
 }
