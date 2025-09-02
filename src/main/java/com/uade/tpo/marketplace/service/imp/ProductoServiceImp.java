@@ -29,11 +29,11 @@ public class ProductoServiceImp implements ProductoService {
 
     public Producto crearProducto(ProductoRequest productoRequest) throws ProductoDuplicadoException {
 
-        if (productoRepository.findByNameEqualsIgnoreCase(productoRequest.getNombre()).isPresent()) {
+        if (productoRepository.findByNombreEqualsIgnoreCase(productoRequest.getNombre()).isPresent()) {
             throw new ProductoDuplicadoException();
         }
 
-        List<Producto> productos = productoRepository.findByNameEqualsIgnoreCase(productoRequest.getNombre()).orElseThrow();
+        List<Producto> productos = productoRepository.findByNombreEqualsIgnoreCase(productoRequest.getNombre()).orElseThrow();
         if (productos.isEmpty()) {
             Producto producto = new Producto();
             producto.setNombre(productoRequest.getNombre());

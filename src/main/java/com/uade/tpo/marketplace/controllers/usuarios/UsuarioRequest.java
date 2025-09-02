@@ -22,6 +22,5 @@ public class UsuarioRequest {
     private String password;
     private int dni;
     private Role role;
-    private ArrayList<Compra> compras;
     private Estados estado;
 }

@@ -1,6 +1,7 @@
 package com.uade.tpo.marketplace.controllers.compras;
 
 import com.uade.tpo.marketplace.entity.Compra;
+import com.uade.tpo.marketplace.exceptions.CompraNotFoundException;
 import com.uade.tpo.marketplace.service.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,13 +34,13 @@ public class CompraController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Compra> getCompraById(@PathVariable String id) {
+    public ResponseEntity<Compra> getCompraById(@PathVariable String id ) throws CompraNotFoundException {
         Compra compra = compraService.findById(id); // El servicio ya lanzará NotFoundException si no existe
         return ResponseEntity.ok(compra);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCompra(@PathVariable String id) {
+    public ResponseEntity<Void> deleteCompra(@PathVariable String id) throws CompraNotFoundException {
         compraService.deleteCompra(id);
         return ResponseEntity.noContent().build();
     }

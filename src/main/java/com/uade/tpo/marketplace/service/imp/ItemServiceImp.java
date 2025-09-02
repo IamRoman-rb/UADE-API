@@ -7,6 +7,7 @@ import com.uade.tpo.marketplace.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,13 +18,12 @@ public class ItemServiceImp implements ItemService {
 
     @Override
     public Item crearItem(ItemRequest request) {
-        Item item = new Item(
-                request.getProducto(),
-                request.getUsuario(),
-                null, // Compra se asignará al confirmar carrito
-                request.getCantidad(),
-                request.getValor()
-        );
+        Item item = new Item();
+        item.setUsuario(request.getUsuario());
+        item.setValor(request.getValor());
+        item.setCantidad(request.getCantidad());
+        item.setFechaHora(LocalDateTime.now());
+        item.setProducto(request.getProducto());
         return itemRepository.save(item);
     }
 

@@ -53,7 +53,7 @@ public class CompraServiceImp implements CompraService {
     @Override
     public Compra findById(String id) throws CompraNotFoundException {
         return compraRepository.findById(id)
-                .orElseThrow(() -> new CompraNotFoundException("Compra no encontrada con ID: " + id));
+                .orElseThrow(() -> new CompraNotFoundException());
     }
 
     @Override
@@ -64,7 +64,7 @@ public class CompraServiceImp implements CompraService {
     @Override
     public void deleteCompra(String id) throws CompraNotFoundException {
         if (!compraRepository.existsById(id)) {
-            throw new CompraNotFoundException("Compra no encontrada con ID: " + id);
+            throw new CompraNotFoundException();
         }
         compraRepository.deleteById(id);
     }

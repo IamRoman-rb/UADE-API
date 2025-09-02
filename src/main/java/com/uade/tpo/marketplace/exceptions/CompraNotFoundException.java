@@ -6,7 +6,4 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND,reason = "No se pudo realizar la compra")
 public class CompraNotFoundException extends Exception {
-    public CompraNotFoundException(String message) {
-        super(message);
-    }
 }

@@ -5,7 +5,4 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "El producto que se desea crear ya existe")
 public class ProductoExistenteException extends Exception{
-    public CompraNotFoundException(String message) {
-        super(message);
-    }
 }
