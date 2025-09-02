@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.enums.Role;
 import jakarta.persistence.*;
@@ -35,6 +36,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -45,6 +47,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Compra> compras = new ArrayList<>();
 
