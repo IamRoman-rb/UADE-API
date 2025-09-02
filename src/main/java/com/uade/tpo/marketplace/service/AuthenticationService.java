@@ -8,6 +8,7 @@ import com.uade.tpo.marketplace.entity.Usuario;
 import com.uade.tpo.marketplace.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,20 +32,52 @@ public class AuthenticationService {
                 .build();
 
         repository.save(user);
-        var jwtToken = jwtService.generateToken((UserDetails) user);
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()));
-        var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
-        var jwtToken = jwtService.generateToken((UserDetails) user);
+
+        System.out.println("Intentando autenticar: " + request.getEmail());
+
+        // Verificar primero si el usuario existe y está activo
+        var userOptional = repository.findByEmail(request.getEmail());
+        if (userOptional.isEmpty()) {
+            System.out.println("Usuario no encontrado: " + request.getEmail());
+            throw new BadCredentialsException("Usuario o contraseña incorrectos");
+        }
+
+        var user = userOptional.get();
+        System.out.println("Usuario encontrado: " + user.getEmail() + ", Estado: " + user.getEstado());
+
+        if (!user.isEnabled()) {
+            System.out.println("Usuario inactivo: " + request.getEmail());
+            throw new RuntimeException("Usuario inactivo");
+        }
+
+        try {
+            var auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            System.out.println("Autenticación exitosa: " + auth.isAuthenticated());
+
+        } catch (BadCredentialsException e) {
+            System.out.println("Credenciales incorrectas para: " + request.getEmail());
+            throw new BadCredentialsException("Usuario o contraseña incorrectos");
+        } catch (Exception e) {
+            System.out.println("Error en autenticación: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error en la autenticación");
+        }
+        user = repository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .build();
