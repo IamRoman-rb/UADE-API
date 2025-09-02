@@ -21,7 +21,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Usuario> getAllUsuarios(){
         return usuarioService.findAll();
     }
@@ -29,6 +29,6 @@ public class UsuarioController {
     @GetMapping("/{id}")
     public Usuario getUsuarioById(@PathVariable String id){
         return usuarioService.findById(id)
-                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id)); // Manejo de Optional
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id));
     }
 }

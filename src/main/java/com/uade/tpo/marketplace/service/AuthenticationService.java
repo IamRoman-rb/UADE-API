@@ -30,7 +30,6 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -46,8 +45,6 @@ public class AuthenticationService {
                             request.getPassword()
                     )
             );
-            System.out.println("Autenticación exitosa: " + auth.isAuthenticated());
-
         } catch (BadCredentialsException e) {
             System.out.println("Credenciales incorrectas para: " + request.getEmail());
             throw new BadCredentialsException("Usuario o contraseña incorrectos");
