@@ -49,7 +49,7 @@ public class Producto {
     private Estados estado = Estados.ACTIVO;
 
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ValorAtributoProducto> datos = new ArrayList<>();
+    private List<ValorAtributo> datos = new ArrayList<>();
 
     @Column(nullable = false)
     private LocalDateTime fechaHora;

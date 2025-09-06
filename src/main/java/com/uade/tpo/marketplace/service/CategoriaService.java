@@ -6,7 +6,7 @@ import com.uade.tpo.marketplace.controllers.categorias.CategoriaRequest;
 import java.util.List;
 
 public interface CategoriaService {
-    Categoria crearCategoria(CategoriaRequest request);
+    Categoria crearCategoria(CategoriaRequest request) throws Exception;
 
     Categoria actualizarCategoria(String id, CategoriaRequest request);
 

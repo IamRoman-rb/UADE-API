@@ -24,10 +24,13 @@ public class ProductoController {
     @PostMapping("/crear")
     public ResponseEntity<Object> crearProducto(@RequestBody ProductoRequest productoRequest)
             throws ProductoDuplicadoException {
+
+        if (!productoRequest.isValid()) {
+            return ResponseEntity.badRequest().body("Atributo ID cannot be null in datos");
+        }
+
         Producto result = productoService.crearProducto(productoRequest);
-
         return ResponseEntity.created(URI.create("/productos/" + result.getId())).body(result);
-
     }
 
 

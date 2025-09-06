@@ -3,13 +3,8 @@ package com.uade.tpo.marketplace.service;
 import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
-import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
-import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

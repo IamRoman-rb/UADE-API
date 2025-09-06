@@ -20,7 +20,7 @@ public class AtributoController {
         this.atributoService = atributoService;
     }
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<Atributo> crearAtributo(@RequestBody AtributoRequest request) {
         Atributo atributo = atributoService.crearAtributo(request);
         return new ResponseEntity<>(atributo, HttpStatus.CREATED);
@@ -32,7 +32,7 @@ public class AtributoController {
         return ResponseEntity.ok(atributo);
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Atributo>> listarAtributos() {
         List<Atributo> atributos = atributoService.findAll();
         return ResponseEntity.ok(atributos);

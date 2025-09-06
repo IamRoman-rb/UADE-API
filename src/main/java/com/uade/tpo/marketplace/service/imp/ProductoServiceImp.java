@@ -1,19 +1,20 @@
 package com.uade.tpo.marketplace.service.imp;
 
+import com.uade.tpo.marketplace.controllers.productos.ProductoAtributoRequest;
 import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
+import com.uade.tpo.marketplace.entity.Atributo;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
-import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
-import com.uade.tpo.marketplace.enums.Estados;
+import com.uade.tpo.marketplace.entity.ValorAtributo;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
+import com.uade.tpo.marketplace.repository.AtributoRepository;
 import com.uade.tpo.marketplace.repository.ProductoRepository;
+import com.uade.tpo.marketplace.repository.ValorAtributoProducto;
 import com.uade.tpo.marketplace.service.ProductoService;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,30 +23,62 @@ import java.util.stream.Collectors;
 public class ProductoServiceImp implements ProductoService {
 
     private final ProductoRepository productoRepository;
+    private final AtributoRepository atributoRepository;
 
-    public ProductoServiceImp(ProductoRepository productoRepository) {
+    public ProductoServiceImp(ProductoRepository productoRepository, ValorAtributoProducto valorAtributoProductoRepository, AtributoRepository atributoRepository) {
         this.productoRepository = productoRepository;
+        this.atributoRepository = atributoRepository;
     }
 
+    @Override
     public Producto crearProducto(ProductoRequest productoRequest) throws ProductoDuplicadoException {
+        System.out.println(productoRequest);
 
-        if (productoRepository.findByNombreEqualsIgnoreCase(productoRequest.getNombre()).isPresent()) {
+        // Verificar duplicado
+        Optional<Producto> existente = productoRepository.findByNombreEqualsIgnoreCase(productoRequest.getNombre());
+        if (existente.isPresent()) {
             throw new ProductoDuplicadoException();
         }
 
-        List<Producto> productos = productoRepository.findByNombreEqualsIgnoreCase(productoRequest.getNombre()).orElseThrow();
-        if (productos.isEmpty()) {
-            Producto producto = new Producto();
-            producto.setNombre(productoRequest.getNombre());
-            producto.setCantidad(productoRequest.getCantidad());
-            producto.setCategoria(productoRequest.getCategoria());
-            producto.setDatos(productoRequest.getDatos());
-            producto.setDescripcion(productoRequest.getDescripcion());
-            producto.setFoto(productoRequest.getFoto());
-            producto.setFechaHora(LocalDateTime.now());
-            return productoRepository.save(producto);
+        Producto producto = new Producto();
+        producto.setNombre(productoRequest.getNombre());
+        producto.setCantidad(productoRequest.getCantidad());
+        producto.setCategoria(productoRequest.getCategoria());
+        producto.setDescripcion(productoRequest.getDescripcion());
+        producto.setFoto(productoRequest.getFoto());
+        producto.setValor(productoRequest.getValor());
+        producto.setDescuento(productoRequest.getDescuento());
+        producto.setFechaHora(LocalDateTime.now());
+
+        if (productoRequest.getDatos() != null && !productoRequest.getDatos().isEmpty()) {
+            List<ValorAtributo> datosCompletos = new ArrayList<>();
+
+            for (ProductoAtributoRequest datoRequest : productoRequest.getDatos()) {
+                if (datoRequest.getAtributoNombre() == null || datoRequest.getValor() == null) {
+                    throw new IllegalArgumentException("AtributoNombre y Valor no pueden ser null");
+                }
+
+                // Buscar el atributo por nombre
+                Atributo atributo = atributoRepository.findByNombre(datoRequest.getAtributoNombre());
+                if (atributo == null) {
+                    // Crear el atributo si no existe
+                    atributo = new Atributo();
+                    atributo.setNombre(datoRequest.getAtributoNombre());
+                    atributo = atributoRepository.save(atributo);
+                }
+
+                ValorAtributo datoCompleto = new ValorAtributo();
+                datoCompleto.setValor(datoRequest.getValor());
+                datoCompleto.setAtributo(atributo);
+                datoCompleto.setProducto(producto);
+
+                datosCompletos.add(datoCompleto);
+            }
+
+            producto.setDatos(datosCompletos);
         }
-        throw new ProductoDuplicadoException();
+
+        return productoRepository.save(producto);
     }
 
     @Override

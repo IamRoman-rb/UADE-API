@@ -30,10 +30,11 @@ public class CategoriaServiceImp implements CategoriaService {
         // Si la categoría padre existe, buscarla
         System.out.println(categoria);
         if (request.getCategoria() != null) {
-            Categoria padre = categoriaRepository.findById(request.getCategoria().name())
+            Categoria padre = categoriaRepository.findById(String.valueOf(request.getCategoria()))
                     .orElseThrow(() -> new CategoriaNotFoundException("Categoría padre no encontrada"));
             categoria.setCategoriaPadre(padre);
         }
+
 
         return categoriaRepository.save(categoria);
     }

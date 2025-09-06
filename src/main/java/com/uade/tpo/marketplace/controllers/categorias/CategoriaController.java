@@ -20,8 +20,8 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    @PostMapping("/crear/")
-    public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaRequest request) {
+    @PostMapping("/crear")
+    public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaRequest request) throws Exception {
         System.out.println(request);
         Categoria categoria = categoriaService.crearCategoria(request);
 

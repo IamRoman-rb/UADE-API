@@ -1,13 +1,14 @@
 package com.uade.tpo.marketplace.controllers.productos;
 
+import com.uade.tpo.marketplace.controllers.productos.ProductoAtributoRequest;
 import com.uade.tpo.marketplace.entity.Categoria;
-import com.uade.tpo.marketplace.entity.ValorAtributoProducto;
 import com.uade.tpo.marketplace.enums.Estados;
+import jakarta.validation.Valid;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class ProductoRequest {
@@ -22,5 +23,18 @@ public class ProductoRequest {
     private int descuento;
     private Categoria categoria;
     private Estados estado;
-    private ArrayList<ValorAtributoProducto> datos;
+    @Valid
+    private List<ProductoAtributoRequest> datos;
+
+    public boolean isValid() {
+        if (datos != null) {
+            for (ProductoAtributoRequest dato : datos) {
+                if (dato.getAtributoNombre() == null || dato.getValor() == null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
+
