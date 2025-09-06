@@ -1,5 +1,6 @@
 package com.uade.tpo.marketplace.repository;
 
+import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,9 @@ import java.util.Optional;
 public interface ProductoRepository extends JpaRepository<Producto, String> {
     Optional<Producto> findByNombreEqualsIgnoreCase(String nombre);
 
+    List<Producto> findByCategoria(Categoria categoria);
+
+    List<Producto> findByCategoriaId(String categoriaId);
+
+    List<Producto> findByCategoriaIdAndEstado(String categoriaId, String estado);
 }

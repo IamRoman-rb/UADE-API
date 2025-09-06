@@ -20,6 +20,10 @@ public interface ProductoService {
 
     List<Producto> findByCategoria(Categoria categoria);
 
+    List<Producto> findByCategoriaId(String categoriaId);
+
+    List<Producto> findByCategoriaIdWithValidation(String categoriaId);
+
     Producto actualizarProducto(String id, Producto producto);
 
     void eliminarProducto(String id);

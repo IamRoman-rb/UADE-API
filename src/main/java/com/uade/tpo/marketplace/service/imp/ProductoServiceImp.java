@@ -10,6 +10,7 @@ import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
 import com.uade.tpo.marketplace.repository.AtributoRepository;
 import com.uade.tpo.marketplace.repository.ProductoRepository;
 import com.uade.tpo.marketplace.repository.ValorAtributoProducto;
+import com.uade.tpo.marketplace.service.CategoriaService;
 import com.uade.tpo.marketplace.service.ProductoService;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,12 @@ public class ProductoServiceImp implements ProductoService {
 
     private final ProductoRepository productoRepository;
     private final AtributoRepository atributoRepository;
+    private final CategoriaService categoriaService;
 
-    public ProductoServiceImp(ProductoRepository productoRepository, ValorAtributoProducto valorAtributoProductoRepository, AtributoRepository atributoRepository) {
+    public ProductoServiceImp(ProductoRepository productoRepository, ValorAtributoProducto valorAtributoProductoRepository, AtributoRepository atributoRepository, CategoriaService categoriaService) {
         this.productoRepository = productoRepository;
         this.atributoRepository = atributoRepository;
+        this.categoriaService = categoriaService;
     }
 
     @Override
@@ -104,6 +107,17 @@ public class ProductoServiceImp implements ProductoService {
         return productoRepository.findAll()
                 .stream()
                 .filter(p -> p.getCategoria().equals(categoria)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Producto> findByCategoriaId(String categoriaId) {
+        return productoRepository.findByCategoriaId(categoriaId);
+    }
+
+    @Override
+    public List<Producto> findByCategoriaIdWithValidation(String categoriaId) {
+        Categoria categoria = categoriaService.findById(categoriaId);
+        return productoRepository.findByCategoria(categoria);
     }
 
     @Override

@@ -28,6 +28,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public Usuario getUsuarioById(@PathVariable String id){
+        System.out.println(id);
         return usuarioService.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id));
     }

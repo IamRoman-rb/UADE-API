@@ -71,16 +71,14 @@ public class UsuarioServiceImp implements UsuarioService {
         return usuarioRepository.findByEmail(email);
     }
 
-    // Asegúrate de que este método exista en tu UsuarioRepository
     @Override
     public List<Usuario> findByNombre(String nombre) {
-        // Asumiendo que tu repositorio tiene un método como este
         return usuarioRepository.findByNombre(nombre);
     }
 
     @Override
     public void deleteUsuario(String id) {
-        if (!usuarioRepository.existsById(id)) { // Buena práctica para verificar si existe antes de eliminar
+        if (!usuarioRepository.existsById(id)) {
             throw new UsuarioNotFoundException("Usuario no encontrado con ID: " + id);
         }
         usuarioRepository.deleteById(id);

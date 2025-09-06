@@ -27,9 +27,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/usuarios").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/usuarios/{id}").hasAnyRole(String.valueOf(Role.ADMINISTRADOR), String.valueOf(Role.COMPRADOR))
+                        .requestMatchers("/usuarios/{id}").hasAnyAuthority("ADMINISTRADOR", "COMPRADOR")
                         .requestMatchers("/productos/").permitAll()
                         .requestMatchers("/productos/{id}").permitAll()
+                        .requestMatchers("/productos/categoria/").permitAll()
+                        .requestMatchers("/productos/categoria/**").permitAll()
                         .requestMatchers("/productos/**").hasAuthority("ADMINISTRADOR")
                         .requestMatchers("/compras/").permitAll()
                         .requestMatchers("/compras/{id}").permitAll()
