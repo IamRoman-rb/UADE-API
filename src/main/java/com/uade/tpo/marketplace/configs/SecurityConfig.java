@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/compras/{id}").permitAll()
                         .requestMatchers("/compras/**").hasAuthority("ADMINISTRADOR")
                         .requestMatchers("/categorias/").permitAll()
+                        .requestMatchers("/categorias/{id}").permitAll()
                         .requestMatchers("/categorias/**").hasAuthority("ADMINISTRADOR")
                         .requestMatchers("/atributos/**").hasAuthority("ADMINISTRADOR")
                         .anyRequest().authenticated()

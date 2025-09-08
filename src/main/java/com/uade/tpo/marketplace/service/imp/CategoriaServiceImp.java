@@ -27,15 +27,11 @@ public class CategoriaServiceImp implements CategoriaService {
         categoria.setDescripcion(request.getDescripcion());
         categoria.setEstado(request.getEstado() != null ? request.getEstado() : categoria.getEstado());
 
-        // Si la categoría padre existe, buscarla
-        System.out.println(categoria);
         if (request.getCategoria() != null) {
             Categoria padre = categoriaRepository.findById(String.valueOf(request.getCategoria()))
                     .orElseThrow(() -> new CategoriaNotFoundException("Categoría padre no encontrada"));
             categoria.setCategoriaPadre(padre);
         }
-
-
         return categoriaRepository.save(categoria);
     }
 

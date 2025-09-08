@@ -28,7 +28,7 @@ public class CategoriaController {
         return new ResponseEntity<>(categoria, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     public ResponseEntity<Categoria> actualizarCategoria(@PathVariable String id, @RequestBody CategoriaRequest request) {
         Categoria categoria = categoriaService.actualizarCategoria(id, request);
         return ResponseEntity.ok(categoria);

@@ -26,7 +26,7 @@ public class AtributoController {
         return new ResponseEntity<>(atributo, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/editar/{id}")
     public ResponseEntity<Atributo> actualizarAtributo(@PathVariable String id, @RequestBody AtributoRequest request) {
         Atributo atributo = atributoService.actualizarAtributo(id, request);
         return ResponseEntity.ok(atributo);

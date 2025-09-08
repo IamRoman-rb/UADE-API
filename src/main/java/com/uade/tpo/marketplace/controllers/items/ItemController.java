@@ -20,7 +20,7 @@ public class ItemController {
         return ResponseEntity.ok(itemService.crearItem(request));
     }
 
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<List<Item>> listarItems() {
         return ResponseEntity.ok(itemService.listarItems());
     }
