@@ -1,5 +1,7 @@
 package com.uade.tpo.marketplace.service.imp;
 
+import com.uade.tpo.marketplace.controllers.usuarios.UsuarioRequest;
+import com.uade.tpo.marketplace.controllers.usuarios.UsuarioUpdateRequest;
 import com.uade.tpo.marketplace.entity.Usuario;
 import com.uade.tpo.marketplace.exceptions.UsuarioDuplicadoException;
 import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException;
@@ -34,24 +36,38 @@ public class UsuarioServiceImp implements UsuarioService {
     }
 
     @Override
-    public Usuario updateUsuario(String id, Usuario usuario) throws UsuarioDuplicadoException, UsuarioNotFoundException {
+    public Usuario updateUsuario(String id, UsuarioUpdateRequest usuarioUpdate) {
         return usuarioRepository.findById(id).map(existing -> {
-            if (!existing.getEmail().equals(usuario.getEmail()) &&
-                    usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
+            // Validar email solo si se está cambiando
+            if (usuarioUpdate.getEmail() != null &&
+                    !existing.getEmail().equals(usuarioUpdate.getEmail()) &&
+                    usuarioRepository.findByEmail(usuarioUpdate.getEmail()).isPresent()) {
                 throw new UsuarioDuplicadoException("El email ya está registrado");
             }
 
-            existing.setNombre(usuario.getNombre());
-            existing.setApellido(usuario.getApellido());
-            existing.setEmail(usuario.getEmail());
-
-            if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
-                existing.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            // Actualizar solo los campos que no son null
+            if (usuarioUpdate.getNombre() != null) {
+                existing.setNombre(usuarioUpdate.getNombre());
+            }
+            if (usuarioUpdate.getApellido() != null) {
+                existing.setApellido(usuarioUpdate.getApellido());
+            }
+            if (usuarioUpdate.getEmail() != null) {
+                existing.setEmail(usuarioUpdate.getEmail());
+            }
+            if (usuarioUpdate.getPassword() != null && !usuarioUpdate.getPassword().isEmpty()) {
+                existing.setPassword(passwordEncoder.encode(usuarioUpdate.getPassword()));
+            }
+            if (usuarioUpdate.getDni() != null) {
+                existing.setDni(usuarioUpdate.getDni());
+            }
+            if (usuarioUpdate.getRole() != null) {
+                existing.setRole(usuarioUpdate.getRole());
+            }
+            if (usuarioUpdate.getEstado() != null) {
+                existing.setEstado(usuarioUpdate.getEstado());
             }
 
-            existing.setDni(usuario.getDni());
-            existing.setRole(usuario.getRole());
-            existing.setEstado(usuario.getEstado());
             return usuarioRepository.save(existing);
         }).orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado"));
     }

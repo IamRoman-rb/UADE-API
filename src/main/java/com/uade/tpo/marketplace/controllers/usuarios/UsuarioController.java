@@ -1,13 +1,13 @@
 package com.uade.tpo.marketplace.controllers.usuarios;
 
 import com.uade.tpo.marketplace.entity.Usuario;
+import com.uade.tpo.marketplace.exceptions.UsuarioDuplicadoException;
 import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException; // Importar la excepción
 import com.uade.tpo.marketplace.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,5 +31,17 @@ public class UsuarioController {
         System.out.println(id);
         return usuarioService.findById(id)
                 .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con ID: " + id));
+    }
+
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> actualizarUsuario(@PathVariable String id, @RequestBody UsuarioUpdateRequest request) {
+        try {
+            Usuario usuario = usuarioService.updateUsuario(id, request);
+            return ResponseEntity.ok(usuario);
+        } catch (UsuarioDuplicadoException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (UsuarioNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
