@@ -60,9 +60,17 @@ public class ProductoController {
         return ResponseEntity.ok(productos);
     }
 
-    @PutMapping("/{id}")
-    public Producto actualizarProducto(@RequestBody ProductoRequest request) {
-        return productoService.actualizarProducto(request);
+    @PutMapping("/editar/{id}")
+    public ResponseEntity<?> actualizarProducto(@PathVariable String id, @RequestBody ProductoUpdateRequest producto) {
+        try {
+            Producto productoActualizado = productoService.actualizarProducto(id, producto);
+            return ResponseEntity.ok(productoActualizado);
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof ProductoDuplicadoException) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Ya existe un producto con ese nombre");
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

@@ -2,11 +2,13 @@ package com.uade.tpo.marketplace.service.imp;
 
 import com.uade.tpo.marketplace.controllers.productos.ProductoAtributoRequest;
 import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
+import com.uade.tpo.marketplace.controllers.productos.ProductoUpdateRequest;
 import com.uade.tpo.marketplace.entity.Atributo;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
 import com.uade.tpo.marketplace.entity.ValorAtributo;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
+import com.uade.tpo.marketplace.exceptions.ProductoExistenteException;
 import com.uade.tpo.marketplace.repository.AtributoRepository;
 import com.uade.tpo.marketplace.repository.ProductoRepository;
 import com.uade.tpo.marketplace.repository.ValorAtributoProducto;
@@ -121,28 +123,44 @@ public class ProductoServiceImp implements ProductoService {
     }
 
     @Override
-    public Producto actualizarProducto(String id, Producto producto) {
+    public Producto actualizarProducto(String id, ProductoUpdateRequest updateRequest) {
         return productoRepository.findById(id)
-                .map(p -> {
-                    p.setNombre(producto.getNombre());
-                    p.setDescripcion(producto.getDescripcion());
-                    p.setValor(producto.getValor());
-                    p.setCantidad(producto.getCantidad());
-                    p.setDescuento(producto.getDescuento());
-                    p.setCategoria(producto.getCategoria());
-                    p.setDatos(producto.getDatos());
-                    return productoRepository.save(p);
+                .map(productoExistente -> {
+                    // Verificar si el nombre fue cambiado
+                    if (updateRequest.getNombre() != null &&
+                            !productoExistente.getNombre().equalsIgnoreCase(updateRequest.getNombre())) {
+
+                        Optional<Producto> productoConMismoNombre = productoRepository
+                                .findByNombreEqualsIgnoreCase(updateRequest.getNombre());
+
+                        if (productoConMismoNombre.isPresent() && !productoConMismoNombre.get().getId().equals(id)) {
+                            throw new RuntimeException(new ProductoDuplicadoException());
+                        }
+                        productoExistente.setNombre(updateRequest.getNombre());
+                    }
+
+                    // Actualizar solo los campos que vienen en el request (no nulos)
+                    if (updateRequest.getDescripcion() != null) {
+                        productoExistente.setDescripcion(updateRequest.getDescripcion());
+                    }
+                    if (updateRequest.getValor() != null && updateRequest.getValor() > 0) {
+                        productoExistente.setValor(updateRequest.getValor());
+                    }
+                    if (updateRequest.getCantidad() != null && updateRequest.getCantidad() >= 0) {
+                        productoExistente.setCantidad(updateRequest.getCantidad());
+                    }
+                    if (updateRequest.getDescuento() != null && updateRequest.getDescuento() >= 0) {
+                        productoExistente.setDescuento(updateRequest.getDescuento());
+                    }
+
+                    return productoRepository.save(productoExistente);
                 })
-                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
+ 
 
     @Override
     public void eliminarProducto(String id) {
         productoRepository.deleteById(id);
-    }
-
-    @Override
-    public Producto actualizarProducto(ProductoRequest request) {
-        return null;
     }
 }

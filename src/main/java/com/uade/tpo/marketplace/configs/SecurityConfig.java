@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/productos/categoria/").permitAll()
                         .requestMatchers("/productos/categoria/**").permitAll()
                         .requestMatchers("/productos/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/productos/editar/{id}").hasAuthority("ADMINISTRADOR")
                         .requestMatchers("/compras/").permitAll()
                         .requestMatchers("/compras/{id}").permitAll()
                         .requestMatchers("/compras/**").hasAuthority("ADMINISTRADOR")

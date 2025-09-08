@@ -1,6 +1,7 @@
 package com.uade.tpo.marketplace.service;
 
 import com.uade.tpo.marketplace.controllers.productos.ProductoRequest;
+import com.uade.tpo.marketplace.controllers.productos.ProductoUpdateRequest;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
@@ -24,9 +25,7 @@ public interface ProductoService {
 
     List<Producto> findByCategoriaIdWithValidation(String categoriaId);
 
-    Producto actualizarProducto(String id, Producto producto);
+    Producto actualizarProducto(String id, ProductoUpdateRequest producto);
 
     void eliminarProducto(String id);
-
-    Producto actualizarProducto(ProductoRequest request);
 }
