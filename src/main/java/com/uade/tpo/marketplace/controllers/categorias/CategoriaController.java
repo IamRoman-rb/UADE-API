@@ -22,7 +22,6 @@ public class CategoriaController {
 
     @PostMapping("/crear")
     public ResponseEntity<Categoria> crearCategoria(@RequestBody CategoriaRequest request) throws Exception {
-        System.out.println(request);
         Categoria categoria = categoriaService.crearCategoria(request);
 
         return new ResponseEntity<>(categoria, HttpStatus.CREATED);

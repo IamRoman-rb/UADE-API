@@ -1,10 +1,7 @@
 package com.uade.tpo.marketplace.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,6 +23,7 @@ public class Compra {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
+    @ToString.Exclude
     private Usuario usuario;
 
     @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
