@@ -32,7 +32,7 @@ public class AuthenticationController {
                     .email(usuarioRequest.getEmail())
                     .password(usuarioRequest.getPassword())
                     .dni(usuarioRequest.getDni())
-                    .role(Role.COMPRADOR)
+                    .role(usuarioRequest.getRole())
                     .estado(Estados.ACTIVO)
                     .build();
 

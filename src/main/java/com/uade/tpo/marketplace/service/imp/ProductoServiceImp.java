@@ -7,6 +7,7 @@ import com.uade.tpo.marketplace.entity.Atributo;
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
 import com.uade.tpo.marketplace.entity.ValorAtributo;
+import com.uade.tpo.marketplace.enums.Estados;
 import com.uade.tpo.marketplace.exceptions.ProductoDuplicadoException;
 import com.uade.tpo.marketplace.exceptions.ProductoExistenteException;
 import com.uade.tpo.marketplace.repository.AtributoRepository;
@@ -88,12 +89,22 @@ public class ProductoServiceImp implements ProductoService {
 
     @Override
     public List<Producto> getProductos() {
+        // Usa el enum directamente
+        return productoRepository.findByEstado(Estados.ACTIVO);
+    }
+
+    @Override
+    public List<Producto> getTodosProductos() {
         return productoRepository.findAll();
     }
 
     @Override
     public Optional<Producto> findById(String id) {
-        return productoRepository.findById(id);
+        Optional<Producto> producto = productoRepository.findById(id);
+        if (producto.isPresent() && !"ACTIVO".equals(producto.get().getEstado())) {
+            return Optional.empty();
+        }
+        return producto;
     }
 
     @Override
@@ -106,9 +117,9 @@ public class ProductoServiceImp implements ProductoService {
 
     @Override
     public List<Producto> findByCategoria(Categoria categoria) {
-        return productoRepository.findAll()
-                .stream()
-                .filter(p -> p.getCategoria().equals(categoria)).collect(Collectors.toList());
+        return productoRepository.findByCategoria(categoria).stream()
+                .filter(p -> Estados.ACTIVO.equals(p.getEstado()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -157,10 +168,21 @@ public class ProductoServiceImp implements ProductoService {
                 })
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
- 
+
 
     @Override
-    public void eliminarProducto(String id) {
-        productoRepository.deleteById(id);
+    public void desactivarProducto(String id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        producto.setEstado(Estados.INACTIVO);
+        productoRepository.save(producto);
+    }
+
+    @Override
+    public void activarProducto(String id) {
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+        producto.setEstado(Estados.ACTIVO);
+        productoRepository.save(producto);
     }
 }

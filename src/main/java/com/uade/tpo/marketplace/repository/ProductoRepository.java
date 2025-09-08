@@ -2,6 +2,7 @@ package com.uade.tpo.marketplace.repository;
 
 import com.uade.tpo.marketplace.entity.Categoria;
 import com.uade.tpo.marketplace.entity.Producto;
+import com.uade.tpo.marketplace.enums.Estados;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,7 @@ public interface ProductoRepository extends JpaRepository<Producto, String> {
 
     List<Producto> findByCategoriaId(String categoriaId);
 
-    List<Producto> findByCategoriaIdAndEstado(String categoriaId, String estado);
+    List<Producto> findAll();
+
+    List<Producto> findByEstado(Estados estado);
 }

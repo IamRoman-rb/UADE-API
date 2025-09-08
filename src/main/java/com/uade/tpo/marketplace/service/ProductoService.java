@@ -15,6 +15,8 @@ public interface ProductoService {
 
     List<Producto> getProductos();
 
+    List<Producto> getTodosProductos();
+
     Optional<Producto> findById(String id);
 
     Optional<Producto> findByNombre(String nombre);
@@ -27,5 +29,6 @@ public interface ProductoService {
 
     Producto actualizarProducto(String id, ProductoUpdateRequest producto);
 
-    void eliminarProducto(String id);
+    void desactivarProducto(String id);
+    void activarProducto(String id);
 }

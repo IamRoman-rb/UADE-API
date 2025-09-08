@@ -41,6 +41,12 @@ public class ProductoController {
         return ResponseEntity.ok(producto);
     }
 
+    @GetMapping("/todos")
+    public ResponseEntity<List<Producto>> getTodosProductos() {
+        List<Producto> productos = productoService.getTodosProductos();
+        return ResponseEntity.ok(productos);
+    }
+
     @GetMapping("/{id}")
     public Producto getProductoById(@PathVariable String id) {
         return productoService.findById(id)
@@ -73,8 +79,23 @@ public class ProductoController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminarProducto(@PathVariable String id) {
-        productoService.eliminarProducto(id);
+    @PostMapping("/desactivar/{id}")
+    public ResponseEntity<?> desactivarProducto(@PathVariable String id) {
+        try {
+            productoService.desactivarProducto(id);
+            return ResponseEntity.ok("Producto desactivado correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/activar/{id}")
+    public ResponseEntity<?> activarProducto(@PathVariable String id) {
+        try {
+            productoService.activarProducto(id);
+            return ResponseEntity.ok("Producto activado correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
