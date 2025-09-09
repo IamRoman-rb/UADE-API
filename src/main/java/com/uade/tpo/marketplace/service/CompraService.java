@@ -1,5 +1,7 @@
 package com.uade.tpo.marketplace.service;
 
+import com.uade.tpo.marketplace.controllers.items.CarritoRequest;
+import com.uade.tpo.marketplace.controllers.items.ItemRequest;
 import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.entity.Usuario;
 import com.uade.tpo.marketplace.controllers.compras.CompraRequest;
@@ -19,4 +21,8 @@ public interface CompraService {
     List<Compra> findByFecha(java.time.LocalDateTime fecha);
 
     void deleteCompra(String id) throws CompraNotFoundException;
+
+    Compra checkout(String email);
+
+    Compra agregarAlCarrito(String usuarioEmail, CarritoRequest carritoRequest);
 }

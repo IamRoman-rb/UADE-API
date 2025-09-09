@@ -1,11 +1,15 @@
 package com.uade.tpo.marketplace.controllers.compras;
 
+import com.uade.tpo.marketplace.controllers.items.CarritoRequest;
+import com.uade.tpo.marketplace.controllers.items.ItemRequest;
 import com.uade.tpo.marketplace.entity.Compra;
 import com.uade.tpo.marketplace.exceptions.CompraNotFoundException;
 import com.uade.tpo.marketplace.service.CompraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +47,24 @@ public class CompraController {
     public ResponseEntity<Void> deleteCompra(@PathVariable String id) throws CompraNotFoundException {
         compraService.deleteCompra(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('COMPRADOR')")
+    @PostMapping("/carrito/agregar")
+    public ResponseEntity<Compra> agregarAlCarrito(
+            Authentication authentication,
+            @RequestBody CarritoRequest carritoRequest) {
+
+        String email = authentication.getName();
+        Compra compra = compraService.agregarAlCarrito(email, carritoRequest);
+        return ResponseEntity.ok(compra);
+    }
+
+    @PreAuthorize("hasRole('COMPRADOR')")
+    @PostMapping("/checkout")
+    public ResponseEntity<Compra> checkout(Authentication authentication) {
+        String email = authentication.getName();
+        Compra compraConfirmada = compraService.checkout(email);
+        return ResponseEntity.ok(compraConfirmada);
     }
 }

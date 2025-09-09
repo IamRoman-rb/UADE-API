@@ -7,6 +7,7 @@ import com.uade.tpo.marketplace.exceptions.UsuarioDuplicadoException;
 import com.uade.tpo.marketplace.exceptions.UsuarioNotFoundException;
 import com.uade.tpo.marketplace.repository.UsuarioRepository;
 import com.uade.tpo.marketplace.service.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder; // <--- Esta es la importación CLAVE
 import org.springframework.stereotype.Service;
