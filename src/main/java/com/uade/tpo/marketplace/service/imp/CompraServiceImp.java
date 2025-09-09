@@ -150,28 +150,24 @@ public class CompraServiceImp implements CompraService {
         Compra compra = compraRepository.findByUsuarioAndEstado(usuario, EstadoCompra.PENDIENTE)
                 .orElseThrow(() -> new IllegalStateException("El carrito está vacío"));
 
-        // Validar que tenga items
         if (compra.getItems() == null || compra.getItems().isEmpty()) {
             throw new IllegalStateException("El carrito está vacío");
         }
 
-        // Verificar stock y descontar cantidad
         for (Item item : compra.getItems()) {
             Producto producto = item.getProducto();
             int cantidadSolicitada = item.getCantidad();
             int stockDisponible = producto.getCantidad();
 
             if (stockDisponible >= cantidadSolicitada) {
-                // Descontar la cantidad del stock del producto
                 producto.setCantidad(stockDisponible - cantidadSolicitada);
-                productoRepository.save(producto); // Guardar el producto con el stock actualizado
+                productoRepository.save(producto);
             } else {
                 // No hay suficiente stock, lanzar una excepción
                 throw new RuntimeException("No hay suficiente stock para el producto: " + producto.getNombre());
             }
         }
 
-        // Si todas las validaciones de stock pasaron, confirmar la compra
         compra.setEstado(EstadoCompra.CONFIRMADA);
         compra.setFechaHora(LocalDateTime.now());
 
